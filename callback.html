@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TikTok Authorization</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; max-width: 600px; margin: 0 auto; }
+        .code-box { background: #f0f0f0; padding: 20px; border-radius: 8px; word-break: break-all; margin: 20px 0; }
+        h1 { color: #333; }
+        .instructions { background: #e7f5ff; padding: 15px; border-radius: 8px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>TikTok Authorization</h1>
+    <div id="result"></div>
+    
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const error = urlParams.get('error');
+        const state = urlParams.get('state');
+        
+        let html = '';
+        if (error) {
+            html = '<p style="color:red;">Error: ' + error + '</p>';
+        } else if (code) {
+            html = '<p>Authorization successful!</p>';
+            html += '<p><strong>Copy this URL and paste it in your browser:</strong></p>';
+            html += '<div class="code-box">http://localhost:5000/callback/tiktok?code=' + code + '&state=' + (state || '') + '</div>';
+            html += '<div class="instructions"><strong>Instructions:</strong><br>1. Make sure your Flask app is running (python run.py)<br>2. Copy the URL above<br>3. Paste it in your browser address bar<br>4. Press Enter</div>';
+        } else {
+            html = '<p>No authorization code received.</p>';
+        }
+        document.getElementById('result').innerHTML = html;
+    </script>
+</body>
+</html>
